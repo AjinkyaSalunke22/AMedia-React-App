@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Box } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
 
     const formData = {
       username,
@@ -31,6 +29,13 @@ const Register = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
+
+    setShowAlert(true);
+
+    setTimeout(() => {
+      setShowAlert(false);
+      navigate('/');
+    }, 1000);
   };
 
   return (
@@ -88,6 +93,19 @@ const Register = () => {
             Register
           </Button>
         </form>
+        {showAlert && (
+          <Alert severity="success" sx={{ mt: 2 }}>
+            Registration successful
+          </Alert>
+        )}
+        <Box mt={2} textAlign="center">
+          <Typography variant="body1">
+            Already have an account?{' '}
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              Login
+            </Link>
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

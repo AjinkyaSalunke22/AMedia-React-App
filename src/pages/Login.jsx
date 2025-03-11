@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
 import { isUserLoggedIn } from '../utils/Utils';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(null);
@@ -13,14 +13,14 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if the user is logged in
     const isLoggedIn = isUserLoggedIn(email, password);
 
     if (isLoggedIn) {
-      localStorage.setItem('login', true);
+      localStorage.setItem('login', 'true');
       setLoginStatus('success');
+      onLogin();
     } else {
-      localStorage.setItem('login', false);
+      localStorage.setItem('login', 'false');
       setLoginStatus('error');
     }
 
@@ -32,7 +32,7 @@ const Login = () => {
     setTimeout(() => {
       setShowAlert(false);
       if (isLoggedIn) {
-        navigate('/welcome'); 
+        navigate('/welcome');
       } else {
         navigate('/register');
       }
@@ -83,6 +83,14 @@ const Login = () => {
             {loginStatus === 'success' ? 'Logged in successfully' : 'Please register first'}
           </Alert>
         )}
+        <Box mt={2} textAlign="center">
+          <Typography variant="body1">
+            Don't have an account?{' '}
+            <Link to="/register" style={{ textDecoration: 'none' }}>
+              Register
+            </Link>
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );
