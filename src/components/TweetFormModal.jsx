@@ -1,34 +1,34 @@
 // components/TweetFormModal.js
-import React, { useState } from 'react';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: 8,
 };
 
-const TweetFormModal = ({ open, onClose }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const loggedInUserEmail = localStorage.getItem('loggedInUser'); // Get logged-in user email
+const TweetFormModal = ({ open, onClose, onPostAdded }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const loggedInUserEmail = localStorage.getItem("loggedInUser"); // Get logged-in user email
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // 1. Retrieve existing posts from localStorage
-    const storedPosts = localStorage.getItem('posts');
+    const storedPosts = localStorage.getItem("posts");
     const postsArray = storedPosts ? JSON.parse(storedPosts) : [];
 
     // 2. Create a new post object, including userEmail
@@ -36,20 +36,24 @@ const TweetFormModal = ({ open, onClose }) => {
       id: Date.now(), // Simple unique ID using timestamp
       title: title,
       description: description,
-      userEmail: loggedInUserEmail, 
+      userEmail: loggedInUserEmail,
     };
 
     // 3. Append the new post to the array
     postsArray.push(newPost);
 
     // 4. Save the updated posts array back to localStorage
-    localStorage.setItem('posts', JSON.stringify(postsArray));
+    localStorage.setItem("posts", JSON.stringify(postsArray));
+
+    // 5. Call the callback to notify the parent component
+    if (onPostAdded) {
+      onPostAdded(newPost); // Pass the new post to the parent
+    }
 
     // Reset form and close modal
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     onClose();
-    window.location.reload();
   };
 
   return (

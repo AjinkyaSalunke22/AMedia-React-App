@@ -1,57 +1,53 @@
 // components/SearchBarAndPost.js
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import SendIcon from '@mui/icons-material/Send';
-import TweetFormModal from './TweetFormModal'; // Import TweetFormModal
+import TweetFormModal from "./TweetFormModal";
 
-const SearchBarAndPost = ({ onSearchChange }) => { // Receive onSearchChange prop
-  const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState(''); // State for search input value
+const SearchBarAndPost = ({ onSearchChange, onPostAdded }) => {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const handleTweetButtonClick = () => {
-    setIsTweetModalOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleTweetModalClose = () => {
-    setIsTweetModalOpen(false);
-  };
-
-  const handleSearchInputChange = (event) => {
-    const value = event.target.value;
-    setSearchInputValue(value); // Update local search input value state
-    onSearchChange(value);     // Call the onSearchChange prop to update the search term in Welcome.js
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+    onSearchChange(event.target.value); // Notify parent of search term change
   };
 
   return (
-    <Box mt={3}>
-      <Grid container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item>
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchInputValue} // Controlled component - value from state
-            onChange={handleSearchInputChange} // Call handleSearchInputChange on change
-          />
-        </Grid>
-        <Grid item>
-          <IconButton color="primary" aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" startIcon={<SendIcon />} onClick={handleTweetButtonClick}>
-            Tweet
-          </Button>
-        </Grid>
-      </Grid>
-
-      <TweetFormModal open={isTweetModalOpen} onClose={handleTweetModalClose} />
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      mb={2}
+      sx={{ gap: 2 }} 
+    >
+      <TextField
+        label="Search Tweets"
+        variant="outlined"
+        value={search}
+        onChange={handleSearchChange}
+        sx={{
+          flexGrow: 1, // Allow the TextField to grow and take up available space
+          maxWidth: "600px", // Optional: Set a max width to prevent it from becoming too wide on large screens
+        }}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+        sx={{
+          height: "56px", // Match the height of the TextField for alignment
+          minWidth: "150px", // Set a minimum width for the button to make it more prominent
+          fontSize: "1rem", // Optional: Adjust font size for better readability
+        }}
+      >
+        Post a Tweet
+      </Button>
+      <TweetFormModal open={open} onClose={handleClose} onPostAdded={onPostAdded} />
     </Box>
   );
 };
