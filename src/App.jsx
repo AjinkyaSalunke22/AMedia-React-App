@@ -31,7 +31,7 @@ function App() {
       <Router>
         <Routes>
           {isLoggedIn ? (
-            <Route path="/welcome" element={<Welcome />} />
+            <Route path="*" element={<Welcome />} />
           ) : (
             <>
               <Route exact path="/" element={<Login onLogin={handleLogin} />} />
