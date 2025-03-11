@@ -13,14 +13,16 @@ const Login = ({ onLogin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const isLoggedIn = isUserLoggedIn(email, password);
+    const userDetails = isUserLoggedIn(email, password);
 
-    if (isLoggedIn) {
+    if (userDetails) {
       localStorage.setItem('login', 'true');
+      localStorage.setItem('loggedInUser', email); 
       setLoginStatus('success');
       onLogin();
     } else {
       localStorage.setItem('login', 'false');
+      localStorage.removeItem('loggedInUser');
       setLoginStatus('error');
     }
 
@@ -31,7 +33,7 @@ const Login = ({ onLogin }) => {
 
     setTimeout(() => {
       setShowAlert(false);
-      if (isLoggedIn) {
+      if (userDetails) {
         navigate('/welcome');
       } else {
         navigate('/register');
