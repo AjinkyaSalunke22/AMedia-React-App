@@ -1,4 +1,3 @@
-```markdown
 # AMedia - A Twitter Clone
 
 AMedia is a lightweight Twitter clone built with React and Vite, featuring core social media functionalities like tweeting, following, liking, and real-time updates.
@@ -17,8 +16,7 @@ AMedia is a lightweight Twitter clone built with React and Vite, featuring core 
    ```bash
    git clone https://github.com/your-username/amedia.git
    cd amedia
-   ```
-
+   
 2. Install dependencies:  
    ```bash
    npm install
