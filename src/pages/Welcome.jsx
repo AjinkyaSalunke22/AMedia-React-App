@@ -1,5 +1,5 @@
 // pages/Welcome.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -10,15 +10,19 @@ import Grid from "@mui/material/Grid"; // Import Grid
 import Footer from "../components/Footer"; // Import Footer Component
 
 const Welcome = () => {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
-  useEffect(() => {
-    const storedPosts = localStorage.getItem('posts');
-    if (storedPosts) {
-      setPosts(JSON.parse(storedPosts));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedPosts = localStorage.getItem('posts');
+  //   if (storedPosts) {
+  //     setPosts(JSON.parse(storedPosts));
+  //   }
+  // }, []);
+  const posts1 = localStorage.getItem('posts');
+  const posts = JSON.parse(posts1)
+
+
 
   // Filter posts based on searchTerm
   const filteredPosts = posts.filter(post =>
