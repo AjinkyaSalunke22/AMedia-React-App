@@ -2,6 +2,9 @@
 
 AMedia is a lightweight Twitter clone built with React and Vite, featuring core social media functionalities like tweeting, following, liking, and real-time updates.
 
+## Link
+https://amedia-twitter-clone.netlify.app/
+
 ## Features
 
 - User authentication (sign up, log in, log out)
